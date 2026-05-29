@@ -45,7 +45,6 @@ function NavBar({ children, ...props }: { children: React.ReactNode; [key: strin
   return (
     <View style={styles.navBarContainer}>
       <View style={styles.navBarInner}>
-        <Text style={styles.marca}>Raxadinha</Text>
         <View style={styles.navLinks}>{children}</View>
       </View>
     </View>
