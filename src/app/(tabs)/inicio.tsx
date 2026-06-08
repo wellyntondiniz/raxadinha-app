@@ -1,8 +1,3 @@
-// =============================================================================
-// src/app/(tabs)/inicio.tsx  —  Home Raxadinha (variação B · cards coloridos)
-// -----------------------------------------------------------------------------
-// Requer react-native-svg (padrão Expo):  npx expo install react-native-svg
-// =============================================================================
 
 import { router } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -10,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 
 import { Spacing } from '@/constants/theme';
+import { useAuth } from '@/context/AuthContext';
 
 const ORANGE = '#FF6B00';
 const ORANGE_DARK = '#E05A00';
@@ -72,6 +68,17 @@ function IconSplit({ color, size = 24 }: IconProps) {
 }
 
 type Icon = (p: IconProps) => React.ReactElement;
+
+// ----------------------------------------------------------------------------
+// Iniciais a partir do nome (ex.: "Laura Brandão" -> "LB", "lauranmrt" -> "L")
+// ----------------------------------------------------------------------------
+function iniciaisDe(nome?: string) {
+  if (!nome) return 'U';
+  const partes = nome.trim().split(/\s+/);
+  const primeira = partes[0]?.[0] ?? '';
+  const ultima = partes.length > 1 ? partes[partes.length - 1][0] : '';
+  return (primeira + ultima).toUpperCase() || 'U';
+}
 
 // ----------------------------------------------------------------------------
 // Card padrão (Grupos / Eventos)
@@ -145,6 +152,10 @@ function CotacaoCard({ onPress }: { onPress: () => void }) {
 // Tela
 // ----------------------------------------------------------------------------
 export default function MenuScreen() {
+  const { usuario } = useAuth();
+  const primeiroNome = usuario?.nome?.trim().split(/\s+/)[0] ?? 'usuário';
+  const iniciais = iniciaisDe(usuario?.nome);
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       {/* Header */}
@@ -153,18 +164,19 @@ export default function MenuScreen() {
           <StarMark size={30} />
           <Text style={styles.marcaNome}>Raxadinha</Text>
         </View>
-        {/* TODO(cadastro): substituir "User" pelas iniciais do usuário logado */}
-        <View style={styles.avatar}>
-          <Text style={styles.avatarTexto}>User</Text>
-        </View>
+        {/* Avatar -> abre o perfil (editar dados, sair, excluir conta) */}
+        <Pressable
+          onPress={() => router.push('/perfil')}
+          style={({ pressed }) => [styles.avatar, pressed && styles.avatarPressed]}>
+          <Text style={styles.avatarTexto}>{iniciais}</Text>
+        </Pressable>
       </View>
 
       <ScrollView
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}>
         {/* Saudação */}
-        {/* TODO(cadastro): substituir "User" pelo nome do usuário logado */}
-        <Text style={styles.saudacao}>Olá, User 👋</Text>
+        <Text style={styles.saudacao}>Olá, {primeiroNome} 👋</Text>
         <Text style={styles.saudacaoSub}>O que vamos rachar hoje?</Text>
 
         <View style={styles.cards}>
@@ -223,6 +235,9 @@ const styles = StyleSheet.create({
     backgroundColor: ORANGE,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  avatarPressed: {
+    backgroundColor: ORANGE_DARK,
   },
   avatarTexto: {
     color: '#fff',
