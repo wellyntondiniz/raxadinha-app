@@ -1,5 +1,9 @@
 
+import {
+  Evento
+} from '@/services/eventoService';
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
@@ -32,6 +36,7 @@ function StarMark({ size = 30 }: { size?: number }) {
     </Svg>
   );
 }
+const [eventos, setEventos] = useState<Evento[]>([]);
 
 // ----------------------------------------------------------------------------
 // Ícones (estilo Lucide, stroke 2)
