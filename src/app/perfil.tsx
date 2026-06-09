@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
   erro: { color: "#D32F2F", fontSize: 14 },
   botao: {
-    backgroundColor: "#208AEF",
+    backgroundColor: "#e77810",
     borderRadius: 10,
     paddingVertical: 14,
     alignItems: "center",
@@ -192,11 +192,11 @@ const styles = StyleSheet.create({
   botaoTexto: { color: "#fff", fontSize: 16, fontWeight: "600" },
   botaoSair: {
     borderWidth: 1,
-    borderColor: "#208AEF",
+    borderColor: "#e77810",
     borderRadius: 10,
     paddingVertical: 12,
     alignItems: "center",
   },
-  botaoSairTexto: { color: "#208AEF", fontSize: 16, fontWeight: "600" },
+  botaoSairTexto: { color: "#e77810", fontSize: 16, fontWeight: "600" },
   excluir: { color: "#D32F2F", textAlign: "center", marginTop: 4 },
 });

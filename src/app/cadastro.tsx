@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   },
   erro: { color: "#D32F2F", fontSize: 14 },
   botao: {
-    backgroundColor: "#208AEF",
+    backgroundColor: "#e77810",
     borderRadius: 10,
     paddingVertical: 14,
     alignItems: "center",
@@ -141,5 +141,5 @@ const styles = StyleSheet.create({
   },
   botaoDesabilitado: { opacity: 0.6 },
   botaoTexto: { color: "#fff", fontSize: 16, fontWeight: "600" },
-  link: { color: "#208AEF", textAlign: "center", marginTop: 4 },
+  link: { color: "#e77810", textAlign: "center", marginTop: 4 },
 });
