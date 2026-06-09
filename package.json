@@ -4,7 +4,11 @@
   "version": "1.0.0",
   "dependencies": {
     "@expo/ui": "~56.0.13",
+<<<<<<< HEAD
     "@react-native-async-storage/async-storage": "2.2.0",
+=======
+    "@react-native-community/datetimepicker": "^9.1.0",
+>>>>>>> ee15f8b5734960818fd9d9f5e9d9d72d59f67cd8
     "expo": "~56.0.4",
     "expo-constants": "~56.0.15",
     "expo-device": "~56.0.4",
@@ -25,6 +29,8 @@
     "react-native-reanimated": "4.3.1",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "4.25.2",
+    "react-native-svg": "15.15.4",
+    "react-native-toast-message": "^2.3.3",
     "react-native-web": "~0.21.0",
     "react-native-worklets": "0.8.3"
   },
