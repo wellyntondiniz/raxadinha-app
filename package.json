@@ -8,7 +8,11 @@
     "@react-native-async-storage/async-storage": "2.2.0",
 =======
     "@react-native-community/datetimepicker": "^9.1.0",
+<<<<<<< HEAD
 >>>>>>> ee15f8b5734960818fd9d9f5e9d9d72d59f67cd8
+=======
+    "@react-navigation/native": "^7.3.0",
+>>>>>>> 998ad2e (eventos top yay)
     "expo": "~56.0.4",
     "expo-constants": "~56.0.15",
     "expo-device": "~56.0.4",

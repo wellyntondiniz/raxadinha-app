@@ -1,10 +1,12 @@
 
 import {
-  Evento
+  Evento,
+  listarEventos,
+  quantidadeEventosAtivos
 } from '@/services/eventoService';
-import { router } from 'expo-router';
-import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { router, useFocusEffect } from 'expo-router';
+import { useCallback, useState } from 'react';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 
@@ -36,7 +38,6 @@ function StarMark({ size = 30 }: { size?: number }) {
     </Svg>
   );
 }
-const [eventos, setEventos] = useState<Evento[]>([]);
 
 // ----------------------------------------------------------------------------
 // Ícones (estilo Lucide, stroke 2)
@@ -160,6 +161,36 @@ export default function MenuScreen() {
   const { usuario } = useAuth();
   const primeiroNome = usuario?.nome?.trim().split(/\s+/)[0] ?? 'usuário';
   const iniciais = iniciaisDe(usuario?.nome);
+  const [eventos, setEventos] = useState<Evento[]>([]);
+  const [quantidadeEventos, setQuantidadeEventos] = useState(0);
+  const eventosAleatorios = [...eventos]
+  .sort(() => Math.random() - 0.5)
+  .slice(0, 3);
+  const [carregando, setCarregando] = useState(true);
+
+  const sub = eventosAleatorios.map(e => e.nome).join(' · ');
+
+  async function carregarTudo() {
+    setCarregando(true);
+
+    try {
+      const [qtd, eventos] = await Promise.all([
+        quantidadeEventosAtivos(),
+        listarEventos(),
+      ]);
+
+      setQuantidadeEventos(qtd);
+      setEventos(eventos);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setCarregando(false);
+    }
+  }
+
+  useFocusEffect(useCallback(() => {
+    carregarTudo();
+  }, []));
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -192,13 +223,16 @@ export default function MenuScreen() {
             meta="4 grupos"
             onPress={() => router.push('/grupos')}
           />
+          {carregando ? (
+              <ActivityIndicator size="large" color={ORANGE} style={styles.loader} />
+              ) : (
           <MenuCard
             Icon={IconCalendar}
             label="Eventos"
-            sub="Churrasco do sábado, Viagem RJ"
-            meta="2 ativos"
+            sub={sub}
+            meta={`${quantidadeEventos} eventos`}
             onPress={() => router.push('/eventos')}
-          />
+          />)}
           <CotacaoCard onPress={() => router.push('/cotacao')} />
         </View>
       </ScrollView>
@@ -361,4 +395,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginTop: Spacing.two,
   },
+  loader: {
+  flex: 1,
+  alignSelf: 'center',
+  }
 });

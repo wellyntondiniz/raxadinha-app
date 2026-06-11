@@ -4,7 +4,7 @@ import BASE_URL from './api';
 export type Evento = {
   id?: number;
   nome: string;
-  grupo_id?: number;
+  grupoId: number;
   descricao: string;
   ativo: boolean;
   dataInicio: Date;
@@ -44,4 +44,12 @@ export async function excluirEvento(id: number): Promise<void> {
     method: 'PUT'
   });
   if (!res.ok) throw new Error('Erro ao excluir evento');
+}
+
+export async function quantidadeEventosAtivos(): Promise<number> {
+  const res = await fetch(`${URL}/quantidade-ativos`);
+  if (!res.ok) {
+    throw new Error('Erro ao obter quantidade de eventos');
+  }
+  return res.json();
 }

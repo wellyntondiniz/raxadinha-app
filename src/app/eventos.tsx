@@ -31,6 +31,7 @@ const ORANGE_DARK = '#E05A00';
 const FORM_VAZIO = {
 nome: '',
 descricao: '',
+grupoId: null as number | null,
 data_inicio: null as Date | null,
 data_termino: null as Date | null
 };
@@ -52,6 +53,7 @@ const eventosFiltrados = eventos.filter(
     item.ativo &&
     item.nome.toLowerCase().includes(pesquisa.toLowerCase())
 );
+const editando = editandoId !== null;
 
 async function carregar() {
 setCarregando(true);
@@ -80,6 +82,7 @@ setEditandoId(evento.id!);
 setForm({
     nome: evento.nome,
     descricao: evento.descricao,
+    grupoId: evento.grupoId,
     data_inicio: evento.dataInicio
     ? new Date(evento.dataInicio)
     : null,
@@ -99,12 +102,23 @@ async function confirmarExclusao() {
   } catch {
     erro("Erro", "Não foi possível excluir");
   } finally {
+    sucesso("Sucesso", "Exclusão realizada com sucesso")
     setModalExcluir(false);
     setItemSelecionado(null);
   }
 }
 
 function validarFormulario() {
+  if (
+    !form.grupoId ||
+    form.grupoId === null ||
+    form.grupoId === undefined ||
+    form.grupoId < 1
+  ) {
+    erro("Erro", "Grupo inválido");
+    return false;
+  }
+  
   if (!form.nome || form.nome.trim() === "") {
     erro("Erro", "Nome é obrigatório");
     return false;
@@ -116,7 +130,6 @@ function validarFormulario() {
   }
 
   if (form.data_inicio && form.data_termino) {
-    console.log(form.data_termino < form.data_inicio);
     if (form.data_termino < form.data_inicio) {
       erro("Erro", "Data de término não pode ser antes da data de início");
       return false;
@@ -133,7 +146,7 @@ try {
     const dados = {
     nome: form.nome.trim(),
     descricao: form.descricao.trim(),
-    grupo_id: 3,
+    grupoId: form.grupoId!,
     ativo: true,
     dataInicio: form.data_inicio!,
     dataTermino: form.data_termino!,
@@ -248,12 +261,27 @@ return (
             style={styles.input}
             value={form.descricao}
             onChangeText={(v) => setForm((f) => ({ ...f, descricao: v }))}
-            placeholder="Ex: Aniversário do Jorgin"
+            placeholder="Digite uma descrição"
             placeholderTextColor="#bbb"
             autoCapitalize="sentences"
             />
 
             <Text style={styles.label}>Grupo *</Text>
+
+            <TextInput
+              style={styles.input}
+              value={form.grupoId?.toString() ?? ''}
+              editable={!editando}
+              onChangeText={(v) =>
+                setForm((f) => ({
+                  ...f,
+                  grupoId: v === '' ? null : Number(v)
+                }))
+              }
+              keyboardType="numeric"
+              placeholder="Digite o ID do grupo"
+              placeholderTextColor="#bbb"
+            />
 
             <Text style={styles.label}>Data de Início*</Text>
 
