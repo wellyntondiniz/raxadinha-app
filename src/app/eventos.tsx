@@ -82,7 +82,7 @@ setEditandoId(evento.id!);
 setForm({
     nome: evento.nome,
     descricao: evento.descricao,
-    grupoId: evento.grupoId,
+    grupoId: 0,
     data_inicio: evento.dataInicio
     ? new Date(evento.dataInicio)
     : null,
@@ -109,16 +109,6 @@ async function confirmarExclusao() {
 }
 
 function validarFormulario() {
-  if (
-    !form.grupoId ||
-    form.grupoId === null ||
-    form.grupoId === undefined ||
-    form.grupoId < 1
-  ) {
-    erro("Erro", "Grupo inválido");
-    return false;
-  }
-  
   if (!form.nome || form.nome.trim() === "") {
     erro("Erro", "Nome é obrigatório");
     return false;
@@ -146,7 +136,6 @@ try {
     const dados = {
     nome: form.nome.trim(),
     descricao: form.descricao.trim(),
-    grupoId: form.grupoId!,
     ativo: true,
     dataInicio: form.data_inicio!,
     dataTermino: form.data_termino!,

@@ -4,7 +4,6 @@ import BASE_URL from './api';
 export type Evento = {
   id?: number;
   nome: string;
-  grupoId: number;
   descricao: string;
   ativo: boolean;
   dataInicio: Date;
