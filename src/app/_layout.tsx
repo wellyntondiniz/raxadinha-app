@@ -1,8 +1,10 @@
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import { useColorScheme } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
 import { AuthProvider } from '@/context/AuthContext';
+
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -18,6 +20,11 @@ export default function RootLayout() {
           <Stack.Screen name="perfil" />
           <Stack.Screen name="produtos" />
         </Stack>
+        <Toast
+          position="top"
+          topOffset={80}
+          autoHide={true}
+        />
       </ThemeProvider>
     </AuthProvider>
   );
