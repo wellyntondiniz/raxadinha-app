@@ -153,6 +153,7 @@ export default function EstabelecimentosScreen() {
           data={estabelecimentos}
           keyExtractor={(item) => String(item.id)}
           contentContainerStyle={styles.lista}
+          nestedScrollEnabled={true}
           ListEmptyComponent={
             <View style={styles.vazio}>
               <Text style={styles.vazioTexto}>Nenhum estabelecimento cadastrado.</Text>
@@ -166,13 +167,25 @@ export default function EstabelecimentosScreen() {
                 <Text style={styles.cardSub}>{item.endereco}</Text>
               </View>
               <View style={styles.cardAcoes}>
-                <Pressable onPress={() => verEstabelecimento(item)} style={styles.verBtn}>
+                <Pressable 
+                  onPress={() => verEstabelecimento(item)} 
+                  style={styles.verBtn}
+                  hitSlop={8}
+                >
                   <Text style={styles.verTexto}>Ver</Text>
                 </Pressable>
-                <Pressable onPress={() => abrirEditar(item)} style={styles.editarBtn}>
+                <Pressable 
+                  onPress={() => abrirEditar(item)} 
+                  style={styles.editarBtn}
+                  hitSlop={8}
+                >
                   <Text style={styles.editarTexto}>Editar</Text>
                 </Pressable>
-                <Pressable onPress={() => confirmarExclusao(item.id!, item.nome)} style={styles.excluirBtn}>
+                <Pressable 
+                  onPress={() => confirmarExclusao(item.id!, item.nome)} 
+                  style={styles.excluirBtn}
+                  hitSlop={8}
+                >
                   <Text style={styles.excluirTexto}>Excluir</Text>
                 </Pressable>
               </View>
@@ -245,19 +258,22 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#eee',
   },
-  cardInfo: {},
+  cardInfo: { flex: 1 },
   cardDescricao: { fontSize: 16, fontWeight: '600' },
   cardSub: { fontSize: 14, color: '#555' },
   cardAcoes: { flexDirection: 'row', gap: Spacing.two },
 
-  // Butoes
-  verBtn: { padding: Spacing.one, backgroundColor: '#4a90e2', borderRadius: Spacing.one },
+  // 🔹 Botões laranja e branco
+  verBtn: { padding: Spacing.one, backgroundColor: ORANGE, borderRadius: Spacing.one },
   verTexto: { color: '#fff', fontWeight: '600' },
-  editarBtn: { padding: Spacing.one, backgroundColor: '#ddd', borderRadius: Spacing.one },
-  editarTexto: { color: '#333', fontWeight: '600' },
-  excluirBtn: { padding: Spacing.one, backgroundColor: '#f55', borderRadius: Spacing.one },
+
+  editarBtn: { padding: Spacing.one, backgroundColor: ORANGE, borderRadius: Spacing.one },
+  editarTexto: { color: '#fff', fontWeight: '600' },
+
+  excluirBtn: { padding: Spacing.one, backgroundColor: ORANGE, borderRadius: Spacing.one },
   excluirTexto: { color: '#fff', fontWeight: '600' },
 
+  // 🔹 Modal
   overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center' },
   overlayScroll: { flexGrow: 1, justifyContent: 'center', padding: Spacing.two },
   modal: { backgroundColor: '#fff', borderRadius: Spacing.two, padding: Spacing.three },
